@@ -80,3 +80,6 @@ class TestDBStorage(unittest.TestCase):
         """clean up method"""
         cls.query.close()
         cls.db.close()
+
+if __name__ == "__main__":
+    unittest.main()
