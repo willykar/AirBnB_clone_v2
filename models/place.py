@@ -7,6 +7,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 import models
 from models.review import Review
+from os import getenv
 
 
 class Place(BaseModel, Base):
@@ -48,4 +49,3 @@ class Place(BaseModel, Base):
             return [review for review in
                     models.storage.all(Review).values()
                     if review.place_id == self.id]
-
