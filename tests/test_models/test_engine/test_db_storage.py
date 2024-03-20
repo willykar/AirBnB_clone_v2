@@ -2,28 +2,35 @@
 """test_db_storage module"""
 import pep8
 import unittest
-import json
+import MySQLdb
+import os
 from os import getenv
-from models.base_model import BaseModel, Base
+from models.base_model import BaseModel
 from models.engine.db_storage import DBStorage
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
 class TestDBStorage(unittest.TestCase):
     '''Test class for db_storage'''
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         """setup method"""
-        self.User = getenv("HBNB_MYYSQL_USER")
-        self.Passwd = getenv("HBNB_MYSQL_PWD")
-        self.Db = getenv("HBNB_MYSQL_DB")
-        self.Host = getenv("HBNB_MYSQL_HOST")
-        self.db = MySqldb.connect(host=self.Host, user=self.User,
+        cls.User = getenv("HBNB_MYYSQL_USER")
+        cls.Passwd = getenv("HBNB_MYSQL_PWD")
+        cls.Db = getenv("HBNB_MYSQL_DB")
+        cls.Host = getenv("HBNB_MYSQL_HOST")
+        cls.db = MySqldb.connect(host=self.Host, user=self.User,
                                   passwd=self.Passwd, db=self.Db,
                                   charset="utf8")
-        self.query = self.db.cursor()
-        self.storage = DBStorage()
-        self.storage.reload()
+        cls.query = self.db.cursor()
+        cls.storage = DBStorage()
+        cls.storage.reload()
 
     @unittest.skipIf(getenv("HBNB_TYPE_STORAGE") != 'db', 'NO DB')
     def test_pep8_DBStorage(self):
@@ -69,11 +76,7 @@ class TestDBStorage(unittest.TestCase):
         self.assertEqual(len(result), 1)
 
     @classmethod
-    def teardown(self):
+    def tearDownClass(cls):
         """clean up method"""
-        self.query.close()
-        self.db.close()
-
-
-if __name__ == "__main__":
-    unittest.main()
+        cls.query.close()
+        cls.db.close()
