@@ -6,6 +6,7 @@ from sqlalchemy import ForeignKey, Float, Table
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 import models
+from models.review import Review
 
 
 class Place(BaseModel, Base):
@@ -35,3 +36,16 @@ class Place(BaseModel, Base):
     price_by_night = Column(Integer, nullable=False, default=0)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
+
+    if getenv("BNB_TYPE_STORAGE") == "db":
+        reviews = relationship("Review",
+                               cascade='all, delete, delete-orphan',
+                               backref="place")
+    else:
+        @property
+        def reviews(self):
+            """Getter method to retrieve reviews linked with place"""
+            return [review for review in
+                    models.storage.all(Review).values()
+                    if review.place_id == self.id]
+
