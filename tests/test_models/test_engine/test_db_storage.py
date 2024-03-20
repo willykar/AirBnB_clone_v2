@@ -26,8 +26,8 @@ class TestDBStorage(unittest.TestCase):
         cls.Db = getenv("HBNB_MYSQL_DB")
         cls.Host = getenv("HBNB_MYSQL_HOST")
         cls.db = MySqldb.connect(host=self.Host, user=self.User,
-                                  passwd=self.Passwd, db=self.Db,
-                                  charset="utf8")
+                                 passwd=self.Passwd, db=self.Db,
+                                 charset="utf8")
         cls.query = self.db.cursor()
         cls.storage = DBStorage()
         cls.storage.reload()
@@ -80,6 +80,7 @@ class TestDBStorage(unittest.TestCase):
         """clean up method"""
         cls.query.close()
         cls.db.close()
+
 
 if __name__ == "__main__":
     unittest.main()
