@@ -25,6 +25,7 @@ class TestDBStorage(unittest.TestCase):
         self.storage = DBStorage()
         self.storage.reload()
 
+    @unittest.skipIf(getenv("HBNB_TYPE_STORAGE") != 'db', 'NO DB')
     def test_pep8_DBStorage(self):
         """pep8 method"""
         style = pep8.StyleGuide(quiet=True)
@@ -33,12 +34,14 @@ class TestDBStorage(unittest.TestCase):
         self.assertEqual(style.total_errors, 0,
                          "errors where found")
 
+    @unittest.skipIf(getenv("HBNB_TYPE_STORAGE") != 'db', 'NO DB')
     def test_read_tables(self):
         """method for checking the exisiting tables"""
         self.query.execute("SHOW TABLES")
         result = self.query.fetchall()
         self.assertEqual(len(result), 7)
 
+    @unittest.skipIf(getenv("HBNB_TYPE_STORAGE") != 'db', 'NO DB')
     def test_no_element_user(self):
         """checks for elements in users table"""
         self.query.execute("SELECT * FROM users")
