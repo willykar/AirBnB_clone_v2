@@ -8,6 +8,8 @@ from sqlalchemy.ext.declarative import declarative_base
 import models
 from models.review import Review
 from os import getenv
+from models.amenity import Amenity
+from models.review import Review
 
 
 place_amenity = Table("place_amenity", Base.metadata,
