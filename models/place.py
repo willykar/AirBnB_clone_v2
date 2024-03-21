@@ -1,11 +1,14 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base
+from sqlalchemy.ext.declarative import declarative_base
+from models.amenity import Amenity
+from models.review import Review
 from sqlalchemy import Column, String, Integer
 from sqlalchemy import ForeignKey, Float, Table
 from sqlalchemy.orm import relationship
-import models
 from os import getenv
+import models
 
 
 place_amenity = Table("place_amenity", Base.metadata,
