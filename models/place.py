@@ -10,6 +10,15 @@ from models.review import Review
 from os import getenv
 
 
+place_amenity = Table("place_amenity", Base.metadata,
+                      column('place_id', String(60),
+                             ForeignKey("places.id"),
+                             primark_key=True, nullable=False),
+                      Column('amenity_id', String(60),
+                             ForeignKey("amenities.id"),
+                             primary_key=True, nullable=False))
+
+
 class Place(BaseModel, Base):
     """ This class Place
     Attributes:
@@ -42,6 +51,8 @@ class Place(BaseModel, Base):
         reviews = relationship("Review",
                                cascade='all, delete, delete-orphan',
                                backref="place")
+        amenities = relationship("Amenity", secondary=place_amenity,
+                                 viewonly=False)
     else:
         @property
         def reviews(self):
@@ -49,3 +60,16 @@ class Place(BaseModel, Base):
             return [review for review in
                     models.storage.all(Review).values()
                     if review.place_id == self.id]
+
+        @property
+        def amenities(self):
+            """Getter method for attributes"""
+            return [amenity for amenity in
+                    models.storage.al(Amenity).values()
+                    if amenity.id in self.amenity_ids]
+
+        @amenities.setter
+        """setter method that handles append method"""
+        def amenities(self, value):
+            if type(value) == Amenity:
+                self.amenity_ids.append(value.id)
