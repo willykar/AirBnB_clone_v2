@@ -4,12 +4,8 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer
 from sqlalchemy import ForeignKey, Float, Table
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
 import models
-from models.review import Review
 from os import getenv
-from models.amenity import Amenity
-from models.review import Review
 
 
 place_amenity = Table("place_amenity", Base.metadata,
