@@ -11,9 +11,9 @@ from os import getenv
 
 
 place_amenity = Table("place_amenity", Base.metadata,
-                      column('place_id', String(60),
+                      Column('place_id', String(60),
                              ForeignKey("places.id"),
-                             primark_key=True, nullable=False),
+                             primary_key=True, nullable=False),
                       Column('amenity_id', String(60),
                              ForeignKey("amenities.id"),
                              primary_key=True, nullable=False))
@@ -69,7 +69,7 @@ class Place(BaseModel, Base):
                     if amenity.id in self.amenity_ids]
 
         @amenities.setter
-        """setter method that handles append method"""
         def amenities(self, value):
+            """setter method that handles append method"""
             if type(value) == Amenity:
                 self.amenity_ids.append(value.id)
