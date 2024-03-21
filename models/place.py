@@ -66,7 +66,7 @@ class Place(BaseModel, Base):
         def amenities(self):
             """Getter method for attributes"""
             return [amenity for amenity in
-                    models.storage.al(Amenity).values()
+                    models.storage.all(Amenity).values()
                     if amenity.id in self.amenity_ids]
 
         @amenities.setter
