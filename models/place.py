@@ -5,9 +5,9 @@ from sqlalchemy import Column, String, Integer
 from sqlalchemy import ForeignKey, Float, Table
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
-import models
 from models.review import Review
 from os import getenv
+import models
 
 
 place_amenity = Table("place_amenity", Base.metadata,
@@ -52,7 +52,8 @@ class Place(BaseModel, Base):
                                cascade='all, delete, delete-orphan',
                                backref="place")
         amenities = relationship("Amenity", secondary=place_amenity,
-                                 viewonly=False)
+                                 viewonly=False,
+                                 back_populates="place_amenities")
     else:
         @property
         def reviews(self):
