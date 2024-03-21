@@ -46,14 +46,14 @@ class Place(BaseModel, Base):
     price_by_night = Column(Integer, nullable=False, default=0)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
+    amenity_ids = []
 
     if getenv("BNB_TYPE_STORAGE") == "db":
         reviews = relationship("Review",
                                cascade='all, delete, delete-orphan',
                                backref="place")
         amenities = relationship("Amenity", secondary=place_amenity,
-                                 viewonly=False,
-                                 back_populates="place_amenities")
+                                 viewonly=False)
     else:
         @property
         def reviews(self):
@@ -64,13 +64,12 @@ class Place(BaseModel, Base):
 
         @property
         def amenities(self):
-            """Getter method for attributes"""
-            return [amenity for amenity in
-                    models.storage.all(Amenity).values()
-                    if amenity.id in self.amenity_ids]
+            """ Returns list of amenity ids """
+            return self.amenity_ids
 
         @amenities.setter
-        def amenities(self, value):
-            """setter method that handles append method"""
-            if type(value) == Amenity:
-                self.amenity_ids.append(value.id)
+        def amenities(self, amenity_obj=None):
+            """ Appends amenity ids to the attribute """
+            if type(amenity_obj) is Amenity
+            and amenity_obj.id not in self.amenity_ids:
+                self.amenity_ids.append(amenity_obj.id)
