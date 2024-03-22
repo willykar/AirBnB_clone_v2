@@ -63,14 +63,19 @@ class Place(BaseModel, Base):
 
         @property
         def amenities(self):
-            """ Returns list of amenity ids """
-            return self.amenity_ids
+            """Getter method for attributes"""
+            from models import storage
+            from models.amenity import Amenity
+            return [amenity for amenity in
+                    storage.all(Amenity).values()
+                    if amenity.id in self.amenity_ids]
 
         @amenities.setter
-        def amenities(self, amenity_obj=None):
-            """ Appends amenity ids to the attribute """
-            if type(amenity_obj) is Amenity and amenity_obj.id not in self.amenity_ids:
-                self.amenity_ids.append(amenity_obj.id)
+        def amenities(self, value):
+            """setter method that handles append method"""
+            if type(value) == Amenity:
+                self.amenity_ids.append(value.id)
+
 
     def __init__(self, *args, **kwargs):
         """init method"""
