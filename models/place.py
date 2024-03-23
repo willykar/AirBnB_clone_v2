@@ -47,20 +47,29 @@ class Place(BaseModel, Base):
     longitude = Column(Float, nullable=True)
     amenity_ids = []
 
-    if getenv("BNB_TYPE_STORAGE") == "db":
-        reviews = relationship("Review",
-                               cascade='all, delete, delete-orphan',
+    if getenv("HBNB_TYPE_STORAGE") == "db":
+        reviews = relationship("Review", cascade='all, delete, delete-orphan',
                                backref="place")
+
         amenities = relationship("Amenity", secondary=place_amenity,
                                  viewonly=False,
                                  back_populates="place_amenities")
     else:
         @property
         def reviews(self):
-            """Getter method to retrieve reviews linked with place"""
-            return [review for review in
-                    models.storage.all(Review).values()
-                    if review.place_id == self.id]       
+            """ Returns list of reviews.id """
+            var = models.storage.all()
+            lista = []
+            result = []
+            for key in var:
+                review = key.replace('.', ' ')
+                review = shlex.split(review)
+                if (review[0] == 'Review'):
+                    lista.append(var[key])
+            for elem in lista:
+                if (elem.place_id == self.id):
+                    result.append(elem)
+            return (result)
 
         @property
         def amenities(self):
