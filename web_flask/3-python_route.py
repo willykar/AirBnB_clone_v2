@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Starts a Flask web application.
 
-The application listens on 0.0.0.0, port 5000.
+The application must be listening on 0.0.0.0, port 5000
 Routes:
     /: Displays 'Hello HBNB!'.
     /hbnb: Displays 'HBNB'.
@@ -12,19 +12,19 @@ from flask import Flask
 
 app = Flask(__name__)
 
-
+# index route
 @app.route("/", strict_slashes=False)
 def hello_hbnb():
     """Displays 'Hello HBNB!'."""
     return "Hello HBNB!"
 
-
+# /hbnb
 @app.route("/hbnb", strict_slashes=False)
 def hbnb():
     """Displays 'HBNB'."""
     return "HBNB"
 
-
+# /c/<text>
 @app.route("/c/<text>", strict_slashes=False)
 def c(text):
     """Displays 'C' followed by the value of <text>.
@@ -32,7 +32,7 @@ def c(text):
     Replaces any underscores in <text> with slashes.
     """
     text = text.replace("_", " ")
-    return "C {}".format(text)
+    return "C " + text
 
 
 @app.route("/python", strict_slashes=False)
@@ -43,8 +43,8 @@ def python(text="is cool"):
     Replaces any underscores in <text> with slashes.
     """
     text = text.replace("_", " ")
-    return "Python {}".format(text)
+    return "Python " + text
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0", port=5000)
