@@ -12,17 +12,20 @@ from flask import Flask
 
 app = Flask(__name__)
 
+
 # index route
 @app.route("/", strict_slashes=False)
 def hello_hbnb():
     """Displays 'Hello HBNB!'."""
     return "Hello HBNB!"
 
+
 # /hbnb
 @app.route("/hbnb", strict_slashes=False)
 def hbnb():
     """Displays 'HBNB'."""
     return "HBNB"
+
 
 # /c/<text>
 @app.route("/c/<text>", strict_slashes=False)
@@ -35,6 +38,7 @@ def c(text):
     return "C " + text
 
 
+# /python/<text>
 @app.route("/python", strict_slashes=False)
 @app.route("/python/<text>", strict_slashes=False)
 def python(text="is cool"):
